@@ -1,22 +1,46 @@
 <div class="container mt-4">
-  <h2>Categories</h2>
+  <button
+    *ngIf="foodItems.length > 0"
+    class="btn btn-secondary mb-3"
+    (click)="resetFoodItems()"
+  >
+    ⬅ Back to Cuisines
+  </button>
+
+  <div *ngIf="foodItems.length === 0">
+    <h2>Cuisines</h2>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let category of categories">
+        <div class="card">
+          <img
+            [src]="category.image"
+            alt="{{ category.name }}"
+            class="card-img-top"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ category.name }}</h5>
+            <p class="card-text">{{ category.description }}</p>
+            <button class="btn btn-primary" (click)="fetchFoodItems(category)">
+              See food items
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container food-container">
+  <h2>Items in {{currentCategory.name}}</h2>
   <div class="row">
-    <div class="col-md-4" *ngFor="let category of categories">
-      <div class="card">
-        <img
-          [src]="category.image"
-          alt="{{ category.name }}"
-          class="card-img-top"
-        />
+    <div class="col-md-4" *ngFor="let item of foodItems">
+      <div class="card food-card">
+        <img [src]="item.image" class="card-img-top" alt="{{ item.name }}" />
         <div class="card-body">
-          <h5 class="card-title">{{ category.name }}</h5>
-          <p class="card-text">{{ category.description }}</p>
-          <button
-            class="btn btn-primary"
-            [routerLink]="['/category', category.token]"
-          >
-            See food items
-          </button>
+          <h5 class="card-title">{{ item.name }}</h5>
+          <p class="card-text">{{ item.description }}</p>
+          <p class="card-text"><strong>Serving:</strong> {{ item.serving }}</p>
+          <button class="btn btn-primary">Select</button>
         </div>
       </div>
     </div>

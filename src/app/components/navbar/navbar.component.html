@@ -1,0 +1,11 @@
+<nav class="navbar navbar-dark bg-dark d-flex justify-content-between align-items-center px-3 sticky-top">
+  
+  <button class="btn btn-light" (click)="goBack()">← Back</button>
+  <span class="navbar-brand">Restaurant App</span>
+  <button class="btn btn-light position-relative">
+    🛒 Cart
+    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" *ngIf="cartCount > 0">
+      {{ cartCount }}
+    </span>
+  </button>
+</nav>

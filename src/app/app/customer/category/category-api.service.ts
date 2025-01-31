@@ -14,4 +14,8 @@ export class CategoryApiService extends BaseService {
   fetchCategories(params: any): Observable<any> {
     return this.get('/food/category/list', params);
   }
+
+  fetchFoodItems(params: any): Observable<any> {
+    return this.get('/food/item/list', params);
+  }
 }

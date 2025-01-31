@@ -8,9 +8,10 @@ import { CustomerComponent } from './customer/customer.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { AuthenticationGuard } from './lib/authentication-guard';
 import { CategoryComponent } from './app/customer/category/category.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomerComponent, KitchenComponent, CategoryComponent],
+  declarations: [AppComponent, CustomerComponent, KitchenComponent, CategoryComponent, NavbarComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [HttpClientModule, AuthenticationGuard],
   bootstrap: [AppComponent],
