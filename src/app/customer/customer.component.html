@@ -7,7 +7,11 @@
     </option>
   </select>
 
-  <button [disabled]="!selectedTable" class="btn btn-primary mt-3">
+  <button
+    [disabled]="!selectedTable"
+    class="btn btn-primary mt-3"
+    (click)="confirmSubission($event)"
+  >
     Confirm
   </button>
 </div>

@@ -1,0 +1,24 @@
+<div class="container mt-4">
+  <h2>Categories</h2>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let category of categories">
+      <div class="card">
+        <img
+          [src]="category.image"
+          alt="{{ category.name }}"
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ category.name }}</h5>
+          <p class="card-text">{{ category.description }}</p>
+          <button
+            class="btn btn-primary"
+            [routerLink]="['/category', category.token]"
+          >
+            See food items
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

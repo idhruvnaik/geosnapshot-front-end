@@ -12,6 +12,6 @@ export class CustomerApiService extends BaseService {
   }
 
   fetchTables(): Observable<any> {
-    return this.get('/serving_table/list');
+    return this.get('/serving_table/list', {});
   }
 }
