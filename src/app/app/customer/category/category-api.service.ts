@@ -18,4 +18,8 @@ export class CategoryApiService extends BaseService {
   fetchFoodItems(params: any): Observable<any> {
     return this.get('/food/item/list', params);
   }
+
+  placeOrder(params: any): Observable<any> {
+    return this.post('order/place', params);
+  }
 }

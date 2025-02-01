@@ -1,34 +1,50 @@
-// cart.service.ts
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private cartItems: any[] = [];
-  private cartToggleSource = new Subject<void>();
+  private cartItemsSubject = new BehaviorSubject<any[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
 
+  private cartToggleSource = new BehaviorSubject<boolean>(false);
   cartToggle$ = this.cartToggleSource.asObservable();
 
   toggleCart() {
-    this.cartToggleSource.next();
+    this.cartToggleSource.next(!this.cartToggleSource.getValue());
   }
 
   addToCart(item: any) {
-    this.cartItems.push(item);
-    this.cartToggleSource.next();
+    let currentItems = this.cartItemsSubject.getValue();
+    let existingItem = currentItems.find((object) => object?.food_token === item?.food_token);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      currentItems.push({ ...item, quantity: 1 });
+    }
+
+    this.cartItemsSubject.next([...currentItems]);
+    this.toggleCart();
   }
 
   removeFromCart(item: any) {
-    const index = this.cartItems.indexOf(item);
+    let currentItems = this.cartItemsSubject.getValue();
+    const index = currentItems.findIndex((i) => i.id === item.id);
+
     if (index > -1) {
-      this.cartItems.splice(index, 1);
+      currentItems.splice(index, 1);
     }
-    this.cartToggleSource.next();
+
+    this.cartItemsSubject.next([...currentItems]);
   }
 
-  getCartItems() {
-    return this.cartItems;
+  getCartItems(): Observable<any[]> {
+    return this.cartItems$;
+  }
+
+  resetCartItems() {
+    this.cartItemsSubject.next([]);
   }
 }

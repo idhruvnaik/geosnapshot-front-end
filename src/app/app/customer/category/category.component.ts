@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast.service';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-category',
@@ -16,8 +17,8 @@ export class CategoryComponent implements OnInit {
   currentCategory: any = {};
   cartItems: any[] = [];
 
-  isCartOpen = false;
-  private cartToggleSubscription: Subscription = new Subscription;
+  isCartOpen = true;
+  private cartToggleSubscription: Subscription = new Subscription();
 
   constructor(
     private categoryApiService: CategoryApiService,
@@ -33,7 +34,9 @@ export class CategoryComponent implements OnInit {
       this.toggleCart();
     });
 
-    this.cartItems = this.cartService.getCartItems();
+    this.cartService.getCartItems().subscribe((items) => {
+      this.cartItems = items;
+    });
   }
 
   fetchTables(): void {
@@ -72,6 +75,55 @@ export class CategoryComponent implements OnInit {
 
   ngOnDestroy() {
     this.cartToggleSubscription.unsubscribe();
+  }
+
+  increaseQuantity(item: any) {
+    if (!item?.quantity) {
+      item.quantity = 0;
+    }
+    item.quantity++;
+  }
+
+  decreaseQuantity(item: any) {
+    if (item?.quantity > 0) {
+      item.quantity--;
+    }
+  }
+
+  addToCart(item: any) {
+    const itemCopy = { ...item };
+    this.cartService.addToCart(itemCopy);
+
+    item.quantity = 0;
+  }
+
+  getTotal(): number {
+    return this.cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  }
+
+  placeOrder() {
+    if (this.cartItems.length === 0) {
+      return;
+    }
+
+    this.categoryApiService
+      .placeOrder({
+        table_token: localStorage.getItem('selectedTable'),
+        items: this.cartItems,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toggleCart();
+          this.toastService.show('Order placed', 'success');
+          this.cartService.resetCartItems();
+        },
+        error: (error) => {
+          console.error('Error fetching tables:', error);
+        },
+      });
   }
 
   toggleCart() {
