@@ -31,7 +31,7 @@
 </div>
 
 <div class="container food-container">
-  <h2>Items in {{currentCategory.name}}</h2>
+  <h2>Items in {{ currentCategory.name }}</h2>
   <div class="row">
     <div class="col-md-4" *ngFor="let item of foodItems">
       <div class="card food-card">
@@ -44,5 +44,19 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="cart-sidebar" [class.open]="isCartOpen">
+  <div class="cart-header">
+    <h5>Orders</h5>
+    <button class="btn-close" (click)="toggleCart()"></button>
+  </div>
+  <div class="cart-body">
+    <ul>
+      <li *ngFor="let item of cartItems">
+        {{ item.name }} - {{ item.serving }}
+      </li>
+    </ul>
   </div>
 </div>
