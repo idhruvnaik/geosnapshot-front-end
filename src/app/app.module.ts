@@ -9,9 +9,10 @@ import { KitchenComponent } from './kitchen/kitchen.component';
 import { AuthenticationGuard } from './lib/authentication-guard';
 import { CategoryComponent } from './app/customer/category/category.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomerComponent, KitchenComponent, CategoryComponent, NavbarComponent],
+  declarations: [AppComponent, CustomerComponent, KitchenComponent, CategoryComponent, NavbarComponent, ToastComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [HttpClientModule, AuthenticationGuard],
   bootstrap: [AppComponent],

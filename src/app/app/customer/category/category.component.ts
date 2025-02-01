@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryApiService } from './category-api.service';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-category',
@@ -14,7 +15,8 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private categoryApiService: CategoryApiService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +46,6 @@ export class CategoryComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.foodItems = response?.data;
-          console.log(this.foodItems);
         },
         error: (error) => {
           console.error('Error fetching tables:', error);
