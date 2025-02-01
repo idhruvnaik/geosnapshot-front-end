@@ -67,19 +67,52 @@
     <span (click)="toggleCart()">X</span>
   </div>
 
-  <div class="cart-body">
-    <ul>
-      <li *ngFor="let item of cartItems">
-        ({{ item.name }} - {{ item.serving }}) X {{ item.quantity }} : ₹{{
-          item.price * item.quantity
-        }}
-      </li>
-    </ul>
+  <div class="cart-dropdown">
+    <select (change)="updateTab($event)">
+      <option *ngFor="let tab of orderTabs" value="{{ tab.value }}">
+        {{ tab.name }}
+      </option>
+    </select>
+  </div>
 
-    <!-- Total Order Value -->
-    <div *ngIf="cartItems.length > 0" class="cart-total">
-      <h5>Total: ₹{{ getTotal() }}</h5>
-    </div>
+  <div class="cart-body">
+    <ng-container *ngIf="activeTab === 'pending'">
+      <ul>
+        <li *ngFor="let item of cartItems">
+          ({{ item.name }} - {{ item.serving }}) X {{ item.quantity }} : ₹{{
+            item.price * item.quantity
+          }}
+        </li>
+      </ul>
+
+      <div *ngIf="cartItems.length > 0" class="cart-total">
+        <h5>Total: ₹{{ getTotal() }}</h5>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab != 'pending'">
+      <div>
+        <div *ngFor="let order of orders" class="order-container">
+          <div class="order-info">
+            <span class="eta-text">ETA: {{ order.estimated_time }}</span>
+            <span class="order-place"
+              >Order placed at:
+              {{ order.submission_time | date : "short" }}</span
+            >
+          </div>
+
+          <div class="order-items">
+            <div class="row" *ngFor="let item of order.food_items">
+              <span> {{ item.name }} X {{ item.quantity }} </span>
+            </div>
+          </div>
+
+          <p class="card-text">
+            <strong>Total Price:</strong> ₹{{ order.total_price }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
   </div>
 
   <div class="cart-footer" *ngIf="cartItems.length > 0">

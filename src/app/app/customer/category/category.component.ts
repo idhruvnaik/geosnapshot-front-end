@@ -16,6 +16,16 @@ export class CategoryComponent implements OnInit {
   foodItems: any[] = [];
   currentCategory: any = {};
   cartItems: any[] = [];
+  orders: any[] = [];
+
+  orderTabs: any = [
+    { name: 'Current', value: 'pending' },
+    { name: 'Cooking', value: 'inprogress' },
+    { name: 'Ready', value: 'ready' },
+    { name: 'Canceled', value: 'canceled' },
+  ];
+
+  activeTab: string = 'pending';
 
   isCartOpen = true;
   private cartToggleSubscription: Subscription = new Subscription();
@@ -62,6 +72,22 @@ export class CategoryComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.foodItems = response?.data;
+        },
+        error: (error) => {
+          console.error('Error fetching tables:', error);
+        },
+      });
+  }
+
+  listOrders(status: String): void {
+    this.categoryApiService
+      .listOrders({
+        status: status,
+        table_token: localStorage.getItem('selectedTable'),
+      })
+      .subscribe({
+        next: (response) => {
+          this.orders = response?.data;
         },
         error: (error) => {
           console.error('Error fetching tables:', error);
@@ -128,5 +154,12 @@ export class CategoryComponent implements OnInit {
 
   toggleCart() {
     this.isCartOpen = !this.isCartOpen;
+  }
+
+  updateTab(event: Event) {
+    this.activeTab = (event.target as HTMLSelectElement).value;
+    if (this.activeTab != 'pending') {
+      this.listOrders(this.activeTab);
+    }
   }
 }

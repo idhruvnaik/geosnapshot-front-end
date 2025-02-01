@@ -86,3 +86,49 @@ button {
     text-align: center;
   }
 }
+
+.cart-dropdown label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.cart-dropdown select {
+  width: 100%;
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.order-container {
+  border: 1px solid #80808036;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  .order-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    .eta-text {
+      font-size: 12px;
+    }
+    .order-place {
+      font-size: 10px;
+    }
+  }
+
+  .order-items {
+    .row {
+      padding: 0px 10px 0px 10px;
+      span {
+        padding-left: 0px;
+        font-size: 14px;
+        border-bottom: 0.5px solid #80808036;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
