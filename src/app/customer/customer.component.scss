@@ -1,0 +1,57 @@
+/* Center the card in the container */
+.table-selection-card {
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* Title Styling */
+.table-selection-card .title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Improve dropdown appearance */
+.table-selection-card select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Dropdown hover effect */
+.table-selection-card select:hover {
+  border-color: #007bff;
+}
+
+/* Confirm button styling */
+.confirm-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+/* Disabled button styling */
+.confirm-btn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Hover effect for enabled button */
+.confirm-btn:not(:disabled):hover {
+  background: #0056b3;
+}

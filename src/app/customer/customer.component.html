@@ -1,17 +1,23 @@
 <div class="container mt-4">
-  <label for="tableSelect" class="form-label">Select Table:</label>
-  <select id="tableSelect" class="form-select" (change)="onTableSelect($event)">
-    <option value="" disabled selected>Select a table</option>
-    <option *ngFor="let table of tables" [value]="table.token">
-      {{ table.name }}
-    </option>
-  </select>
+  <div class="table-selection-card">
+    <h4 class="title">Select Your Table</h4>
+    <select
+      id="tableSelect"
+      class="form-select"
+      (change)="onTableSelect($event)"
+    >
+      <option value="" disabled selected>Select a table</option>
+      <option *ngFor="let table of tables" [value]="table.token">
+        {{ table.name }}
+      </option>
+    </select>
 
-  <button
-    [disabled]="!selectedTable"
-    class="btn btn-primary mt-3"
-    (click)="confirmSubission($event)"
-  >
-    Confirm
-  </button>
+    <button
+      [disabled]="!selectedTable"
+      class="btn btn-primary confirm-btn"
+      (click)="confirmSubission($event)"
+    >
+      Confirm Selection
+    </button>
+  </div>
 </div>
