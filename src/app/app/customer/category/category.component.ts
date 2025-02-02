@@ -19,10 +19,10 @@ export class CategoryComponent implements OnInit {
   orders: any[] = [];
 
   orderTabs: any = [
-    { name: 'Current', value: 'pending' },
+    { name: 'Current', value: 'current' },
+    { name: 'In queue', value: 'pending' },
     { name: 'Cooking', value: 'inprogress' },
     { name: 'Ready', value: 'ready' },
-    { name: 'Canceled', value: 'canceled' },
   ];
 
   activeTab: string = 'pending';
@@ -165,7 +165,7 @@ export class CategoryComponent implements OnInit {
 
   updateTab(event: Event) {
     this.activeTab = (event.target as HTMLSelectElement).value;
-    if (this.activeTab != 'pending') {
+    if (this.activeTab != 'current') {
       this.listOrders(this.activeTab);
     }
   }
