@@ -12,10 +12,15 @@ export class KitchenComponent implements OnInit {
     private kitchenApi: KitchenApiService,
     private toastService: ToastService
   ) {}
+
   orders: any[] = [];
 
   ngOnInit(): void {
     this.listOrders();
+
+    setInterval(() => {
+      this.listOrders();
+    }, 20000);
   }
 
   selectedTab: string = 'pending';
