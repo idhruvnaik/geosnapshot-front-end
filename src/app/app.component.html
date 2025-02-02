@@ -1,3 +1,5 @@
-<app-navbar [cartCount]="cartItems.length"></app-navbar>
+<ng-container *ngIf="showNavbar">
+  <app-navbar [cartCount]="cartItems.length"></app-navbar>
+</ng-container>
 <app-toast></app-toast>
 <router-outlet></router-outlet>

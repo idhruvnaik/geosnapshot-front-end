@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit {
     { name: 'Ready', value: 'ready' },
   ];
 
-  activeTab: string = 'pending';
+  activeTab: string = 'current';
 
   isCartOpen = true;
   private cartToggleSubscription: Subscription = new Subscription();

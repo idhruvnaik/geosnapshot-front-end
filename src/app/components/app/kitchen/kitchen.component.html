@@ -1,0 +1,71 @@
+<div class="wrapper">
+  <div class="order-tabs">
+    <button
+      *ngFor="let status of ['pending', 'inprogress', 'ready']"
+      class="order-tab"
+      [class.active]="selectedTab === status"
+      (click)="selectTab(status)"
+    >
+      {{ status | capitalize }}
+    </button>
+  </div>
+
+  <div class="order-container">
+    <div *ngFor="let order of orders; let i = index" [ngClass]="order.status">
+      <div class="order-card">
+        <div class="order-header">
+          <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+          <p>
+            <strong>Order placed at:</strong>
+            {{ order.submission_time | date : "short" }}
+          </p>
+
+          <div *ngIf="order.status != 'pending'">
+            <p>
+              <strong>Estimated Time:</strong>
+              {{ order.estimated_time }} minutes
+            </p>
+          </div>
+
+          <div *ngIf="order.status === 'pending'">
+            <label for="estimated-time"
+              >Enter Estimated Time (in minutes):</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="order.estimated_time"
+              class="estimated-time-input"
+              placeholder="Enter time"
+            />
+          </div>
+        </div>
+
+        <div class="food-items">
+          <h6>Food Items</h6>
+          <div
+            *ngFor="let item of order.food_items; let i = index"
+            class="food-item-card"
+          >
+            <div class="food-item-details">
+              {{ i + 1 }}. {{ item.name }} X {{ item.quantity }} ({{
+                item.serving
+              }})
+            </div>
+          </div>
+        </div>
+
+        <div class="order-actions" *ngIf="order.status === 'pending'">
+          <button class="btn btn-primary" (click)="startProcessingOrder(order, i)">
+            Start preparing
+          </button>
+        </div>
+
+        <div class="order-actions" *ngIf="order.status === 'inprogress'">
+          <button class="btn btn-secondary" (click)="markAsReadyOrder(order, i)">
+            Mark as ready
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
