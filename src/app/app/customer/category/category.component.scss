@@ -61,7 +61,8 @@ button {
 }
 
 .cart-body {
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .cart-body ul {

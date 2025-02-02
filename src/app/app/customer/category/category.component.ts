@@ -154,6 +154,12 @@ export class CategoryComponent implements OnInit {
 
   toggleCart() {
     this.isCartOpen = !this.isCartOpen;
+
+    if (this.isCartOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
   }
 
   updateTab(event: Event) {
