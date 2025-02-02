@@ -175,9 +175,13 @@ export class CategoryComponent implements OnInit {
   }
 
   decreaseOrderQuantity(orderIndex: number, itemIndex: number) {
-    if (this.orders[orderIndex].food_items[itemIndex].quantity > 1) {
+    if (this.orders[orderIndex].food_items[itemIndex].quantity > 0) {
       this.orders[orderIndex].food_items[itemIndex].quantity--;
       this.updateOrderItem(this.orders[orderIndex].food_items[itemIndex]);
+
+      if (this.orders[orderIndex].food_items[itemIndex].quantity === 0) {
+        this.orders[orderIndex].food_items.splice(itemIndex, 1);
+      }
     }
   }
 
@@ -193,7 +197,7 @@ export class CategoryComponent implements OnInit {
           return orderItem;
         },
         error: (error) => {
-          console.error('Error fetching tables:', error);
+          this.toastService.show(error.message, 'error');
         },
       });
   }
