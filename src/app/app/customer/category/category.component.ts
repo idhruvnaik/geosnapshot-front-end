@@ -97,6 +97,7 @@ export class CategoryComponent implements OnInit {
 
   resetFoodItems() {
     this.foodItems = [];
+    this.currentCategory = null;
   }
 
   ngOnDestroy() {
