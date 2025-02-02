@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast.service';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
-import { log } from 'console';
 
 @Component({
   selector: 'app-category',
@@ -168,5 +167,52 @@ export class CategoryComponent implements OnInit {
     if (this.activeTab != 'current') {
       this.listOrders(this.activeTab);
     }
+  }
+
+  increaseOrderQuantity(orderIndex: number, itemIndex: number) {
+    this.orders[orderIndex].food_items[itemIndex].quantity++;
+    this.updateOrderItem(this.orders[orderIndex].food_items[itemIndex]);
+  }
+
+  decreaseOrderQuantity(orderIndex: number, itemIndex: number) {
+    if (this.orders[orderIndex].food_items[itemIndex].quantity > 1) {
+      this.orders[orderIndex].food_items[itemIndex].quantity--;
+      this.updateOrderItem(this.orders[orderIndex].food_items[itemIndex]);
+    }
+  }
+
+  updateOrderItem(orderItem: any) {
+    this.categoryApiService
+      .updateOrderItem({
+        order_item_token: orderItem?.order_item_token,
+        table_token: localStorage.getItem('selectedTable'),
+        quantity: orderItem?.quantity,
+      })
+      .subscribe({
+        next: (response) => {
+          return orderItem;
+        },
+        error: (error) => {
+          console.error('Error fetching tables:', error);
+        },
+      });
+  }
+
+  cancelOrder(orderIndex: number) {
+    let order = this.orders[orderIndex];
+    this.categoryApiService
+      .updateOrder({
+        order_token: order?.order_token,
+        table_token: localStorage.getItem('selectedTable'),
+        status: 'canceled',
+      })
+      .subscribe({
+        next: (response) => {
+          this.orders.splice(orderIndex, 1);
+        },
+        error: (error) => {
+          this.toastService.show(error.message, 'error');
+        },
+      });
   }
 }

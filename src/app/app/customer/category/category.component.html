@@ -98,24 +98,56 @@
 
     <ng-container *ngIf="activeTab != 'current'">
       <div>
-        <div *ngFor="let order of orders" class="order-container">
+        <div
+          *ngFor="let order of orders; let i = index"
+          class="order-container"
+        >
           <div class="order-info">
             <span class="eta-text">ETA: {{ order.estimated_time }}</span>
-            <span class="order-place"
-              >Order placed at:
-              {{ order.submission_time | date : "short" }}</span
-            >
+            <span class="order-place">
+              Order placed at: {{ order.submission_time | date : "short" }}
+            </span>
           </div>
 
           <div class="order-items">
-            <div class="row" *ngFor="let item of order.food_items">
-              <span> {{ item.name }} X {{ item.quantity }} </span>
+            <div
+              class="row"
+              *ngFor="let item of order.food_items; let j = index"
+            >
+              <div class="order-item">
+                <span class="food-name"> {{ item.name }}</span>
+                <div class="quantity-container">
+                  <button
+                    class="quantity-btn"
+                    (click)="decreaseOrderQuantity(i, j)"
+                    *ngIf="order?.status === 'pending'"
+                  >
+                    ➖
+                  </button>
+                  <span class="quantity">{{ item.quantity }}</span>
+                  <button
+                    class="quantity-btn"
+                    (click)="increaseOrderQuantity(i, j)"
+                    *ngIf="order?.status === 'pending'"
+                  >
+                    ➕
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
           <p class="card-text">
             <strong>Total Price:</strong> ₹{{ order.total_price }}
           </p>
+
+          <button
+            class="delete-btn"
+            (click)="cancelOrder(i)"
+            *ngIf="order?.status === 'pending'"
+          >
+            🗑️ Cancel Order
+          </button>
         </div>
       </div>
     </ng-container>

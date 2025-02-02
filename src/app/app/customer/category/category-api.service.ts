@@ -26,4 +26,12 @@ export class CategoryApiService extends BaseService {
   listOrders(params: any): Observable<any> {
     return this.get('order/list', params);
   }
+
+  updateOrderItem(params: any): Observable<any> {
+    return this.post('order/update_order_item', params);
+  }
+
+  updateOrder(params: any): Observable<any> {
+    return this.post('order/update_order', params);
+  }
 }
