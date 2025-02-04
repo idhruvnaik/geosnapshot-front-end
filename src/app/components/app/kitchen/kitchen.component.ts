@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KitchenApiService } from 'src/app/app/kitchen/kitchen-api.service';
+import { OrderWebsocketService } from 'src/app/services/order-websocket.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -10,7 +11,8 @@ import { ToastService } from 'src/app/services/toast.service';
 export class KitchenComponent implements OnInit {
   constructor(
     private kitchenApi: KitchenApiService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private orderWebsocketService: OrderWebsocketService
   ) {}
 
   orders: any[] = [];
@@ -18,9 +20,10 @@ export class KitchenComponent implements OnInit {
   ngOnInit(): void {
     this.listOrders();
 
-    setInterval(() => {
-      this.listOrders();
-    }, 20000);
+    this.orderWebsocketService.getOrders().subscribe((order) => {
+      console.log(order);
+      this.updateOrderList(order);
+    });
   }
 
   selectedTab: string = 'pending';
@@ -78,5 +81,28 @@ export class KitchenComponent implements OnInit {
           console.error('Error fetching tables:', error);
         },
       });
+  }
+
+  private updateOrderList(order: any) {
+    if (order.state === 'deleted') {
+      this.orders = this.orders.filter((o) => o.order_token !== order.order_token);
+      return;
+    }
+
+    const index = this.orders.findIndex(
+      (o) => o?.order_token === order?.order_token
+    );
+
+    if (index !== -1) {
+      this.orders[index] = order;
+    } else {
+      this.orders.unshift(order);
+    }
+
+    this.orders.sort(
+      (a, b) =>
+        new Date(a.submission_time).getTime() -
+        new Date(b.submission_time).getTime()
+    );
   }
 }
